@@ -13,10 +13,24 @@ document.addEventListener('DOMContentLoaded', async function() {
   // Get current tab domain
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    currentDomain = new URL(tab.url).hostname;
-    currentDomainEl.textContent = currentDomain;
+    if (tab && tab.url) {
+      const url = new URL(tab.url);
+      // Only show domain for http/https URLs
+      if (url.protocol === 'http:' || url.protocol === 'https:') {
+        currentDomain = url.hostname;
+        currentDomainEl.textContent = currentDomain;
+      } else {
+        currentDomainEl.textContent = `${url.protocol} (not supported)`;
+        document.getElementById('toggleCurrent').disabled = true;
+      }
+    } else {
+      currentDomainEl.textContent = 'No active tab';
+      document.getElementById('toggleCurrent').disabled = true;
+    }
   } catch (error) {
+    console.error('Error getting tab info:', error);
     currentDomainEl.textContent = 'Unable to detect domain';
+    document.getElementById('toggleCurrent').disabled = true;
   }
   
   // Load blocked domains
@@ -76,6 +90,12 @@ document.addEventListener('DOMContentLoaded', async function() {
   
   // Toggle current domain
   toggleCurrentEl.addEventListener('change', async function() {
+    if (!currentDomain) {
+      this.checked = false;
+      alert('No valid domain detected. Please navigate to a website first.');
+      return;
+    }
+    
     if (this.checked) {
       if (!blockedDomains.includes(currentDomain)) {
         blockedDomains.push(currentDomain);

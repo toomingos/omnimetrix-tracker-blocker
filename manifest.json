@@ -3,7 +3,7 @@
   "name": "Omnimetrix Tracker Blocker",
   "version": "1.0",
   "description": "Blocks Omnimetrix analytics tracker on specified domains",
-  "permissions": ["storage"],
+  "permissions": ["storage", "activeTab"],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
