@@ -83,6 +83,7 @@ document.addEventListener('DOMContentLoaded', async function() {
       }
     } else {
       blockedDomains = blockedDomains.filter(domain => domain !== currentDomain);
+      await addToRemovedDomains(currentDomain);
       await saveBlockedDomains();
     }
   });
@@ -104,11 +105,22 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
   });
   
+  // Add domain to removed list for cleanup
+  async function addToRemovedDomains(domain) {
+    const result = await chrome.storage.sync.get(['removedDomains']);
+    const removedDomains = result.removedDomains || [];
+    if (!removedDomains.includes(domain)) {
+      removedDomains.push(domain);
+      await chrome.storage.sync.set({ removedDomains });
+    }
+  }
+
   // Remove domain
   domainListEl.addEventListener('click', async function(e) {
     if (e.target.classList.contains('remove-btn')) {
       const domain = e.target.getAttribute('data-domain');
       blockedDomains = blockedDomains.filter(d => d !== domain);
+      await addToRemovedDomains(domain);
       await saveBlockedDomains();
     }
   });
