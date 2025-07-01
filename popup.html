@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 300px;
+      padding: 16px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+    
+    .header {
+      margin-bottom: 16px;
+      font-weight: bold;
+    }
+    
+    .current-domain {
+      background: #f5f5f5;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+      font-family: monospace;
+    }
+    
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    
+    .add-domain {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    
+    .add-domain input {
+      flex: 1;
+      padding: 6px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    
+    .add-domain button {
+      padding: 6px 12px;
+      background: #007cba;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .domain-list {
+      max-height: 120px;
+      overflow-y: auto;
+    }
+    
+    .domain-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 0;
+      font-family: monospace;
+      font-size: 12px;
+    }
+    
+    .remove-btn {
+      color: #dc3545;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    .status {
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+    
+    .status.enabled {
+      background: #d4edda;
+      color: #155724;
+    }
+    
+    .status.disabled {
+      background: #f8d7da;
+      color: #721c24;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">🛡️ Omnimetrix Blocker</div>
+  
+  <div class="current-domain" id="currentDomain">Loading...</div>
+  
+  <div class="status" id="status">
+    <span id="statusText">Loading...</span>
+  </div>
+  
+  <div class="toggle-container">
+    <input type="checkbox" id="toggleCurrent">
+    <label for="toggleCurrent">Block on this domain</label>
+  </div>
+  
+  <div class="add-domain">
+    <input type="text" id="domainInput" placeholder="example.com or *.example.com">
+    <button id="addButton">Add</button>
+  </div>
+  
+  <div class="domain-list" id="domainList"></div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

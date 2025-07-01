@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Omnimetrix Tracker Blocker",
+  "version": "1.0",
+  "description": "Blocks Omnimetrix analytics tracker on specified domains",
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
